@@ -19,14 +19,11 @@ define([
         associationClassName: "",
 
         // internal variables
-        contextGUID: null,
         caption: [],
         classnames: [],
         replacements: [],
         curindex: 0,
         element: null,
-        attrHandle: null,
-        objHandle: null,
         defaultClass: "",
         elementToApplyTo: null,
         showWidget: true,
@@ -125,14 +122,8 @@ define([
         },
 
         update: function(obj, callback) {
-<<<<<<< HEAD
-            if (obj) {
-                this.contextGUID = obj.getGuid();
-                // check reference
-=======
             if (obj && this.elementToApplyTo) {
-                // Check reference
->>>>>>> 72e4281... fixup! Add support target selector
+                // check reference
                 if (this._referenceName && obj.get(this._referenceName) !== "") {
                     // console.log(obj.get(this._referenceName))
                     // set the classes
@@ -141,8 +132,8 @@ define([
                 } else {
                     domClass.remove(this.elementToApplyTo, this.associationClassName);
                 }
-                this._resetSubscriptions();
             }
+            this._resetSubscriptions();
             callback();
         },
 
@@ -209,16 +200,8 @@ define([
             this.onChange();
         },
 
-        _unsubscribe: function() {
-            if (this.attrHandle) {
-                mx.data.unsubscribe(this.attrHandle);
-            }
-            if (this.objHandle) {
-                mx.data.unsubscribe(this.objHandle);
-            }
-        },
-
         _resetSubscriptions: function() {
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
             if (!this.elementToApplyTo) {
@@ -226,30 +209,25 @@ define([
             }
             this.unsubscribeAll();
 >>>>>>> 72e4281... fixup! Add support target selector
+=======
+            this.unsubscribeAll();
+>>>>>>> c8461ed... Simply subscription
             var attributeName = this.name;
             if (this.attributeType == "reference") {
                 attributeName = this._referenceName;
             }
 
-            if (this.contextGUID) {
-                this._unsubscribe();
-                this.attrHandle = this.subscribe({
-                    guid: this.contextGUID,
+            if (this.mxcontext && this.mxcontext.getTrackId()) {
+                this.subscribe({
+                    guid: this.mxcontext.getTrackId(),
                     attr: this.name,
                     callback: lang.hitch(this, function(guid, attr, attrValue) {
                         this._setValueAttr(attrValue);
                     })
                 });
             }
-        },
-
-        uninitialize: function() {
-            this._unsubscribe();
         }
-
     });
 });
 
-require(["EnumClass/widget/EnumClass"], function() {
-    "use strict";
-});
+require(["EnumClass/widget/EnumClass"]);
