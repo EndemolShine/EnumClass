@@ -13,7 +13,7 @@ define([
 
         // Set in Modeler
         name: "",
-        enumvalues: [], //value array, keep it compatible with mx4
+        enumvalues: [], // Value array, keep it compatible with mx4
         glyphicon: "",
         applyToEnum: "",
         associationClassName: "",
@@ -33,7 +33,7 @@ define([
 
         postCreate: function() {
 
-            //Polyfill so we can use element.closest in IE
+            // Polyfill so we can use element.closest in IE
             // matches polyfill
             window.Element && function(ElementPrototype) {
                 ElementPrototype.matches = ElementPrototype.matches ||
@@ -59,9 +59,9 @@ define([
                     }
             }(Element.prototype);
 
-            //End polyfill
+            // End polyfill
 
-            // STYLE BY REFERENCE
+            // Style by reference
             if (this.referenceEntity) {
                 this._referenceName = this.referenceEntity.split("/")[0];
             }
@@ -69,7 +69,7 @@ define([
             this.caption = [];
             this.classnames = [];
             this.replacements = [];
-            // copy data from object array
+            // Copy data from object array
             for (var i = 0; i < this.enumvalues.length; i++) {
                 this.caption.push(this.enumvalues[i].captions);
                 this.classnames.push(this.enumvalues[i].classnames);
@@ -78,7 +78,7 @@ define([
 
             this.element = domConstruct.create("span");
 
-            switch (this.applyToEnum) { //Select the right element to apply the class too
+            switch (this.applyToEnum) { // Select the right element to apply the class too
                 case "SELF":
                     this.elementToApplyTo = this.element;
                     break;
@@ -113,21 +113,19 @@ define([
                     alertDiv.appendChild(alertContent);
                     this._markerNode.parentNode.insertBefore(alertDiv, this._markerNode); 
             }
-            //ET 12/7/16 -- Removed in favor of the dom-class module so two EnumClass widgets can peacefully coexist
-            //this.defaultClass = domAttr.get(this.elementToApplyTo, "class");
+            // ET 12/7/16 -- Removed in favor of the dom-class module so two EnumClass widgets can peacefully coexist
+            // this.defaultClass = domAttr.get(this.elementToApplyTo, "class");
 
-            //if (this.defaultClass !== "") {
-            //    this.defaultClass += " ";
-            //}
+            // if (this.defaultClass !== "") {
+            //     this.defaultClass += " ";
+            // }
         },
 
         update: function(obj, callback) {
             if (obj && this.elementToApplyTo) {
-                // check reference
+                // Check reference
                 if (this._referenceName && obj.get(this._referenceName) !== "") {
-                    // console.log(obj.get(this._referenceName))
-                    // set the classes
-                    //this.elementToApplyTo.className += " " + this.associationClassName
+                    // Set the classes
                     domClass.add(this.elementToApplyTo, this.associationClassName);
                 } else {
                     domClass.remove(this.elementToApplyTo, this.associationClassName);
@@ -173,7 +171,7 @@ define([
             if (this.glyphicon !== "") {
                 classname = classname + " glyphicon glyphicon-" + this.glyphicon + " ";
             }
-            //domAttr.set(this.elementToApplyTo, "class", this.defaultClass + classname); //Set the class to the existing class + enum-determined-class
+            // domAttr.set(this.elementToApplyTo, "class", this.defaultClass + classname); // Set the class to the existing class + enum-determined-class
             for (var i = 0; i < this.classnames.length; i++) {
                 if (classname !== this.classnames[i]) {
                     domClass.remove(this.elementToApplyTo, this.classnames[i]);
@@ -183,9 +181,9 @@ define([
 
             if (this.glyphicon !== "") {
                 domAttr.set(this.element, "innerHTML", "");
-                domAttr.set(this.element, "title", toDisplay); //Set innerHTML empty and tooltip to caption
+                domAttr.set(this.element, "title", toDisplay); // Set innerHTML empty and tooltip to caption
             } else {
-                domAttr.set(this.element, "innerHTML", toDisplay); //Set the innerHTML to the value of the attribute
+                domAttr.set(this.element, "innerHTML", toDisplay); // Set the innerHTML to the value of the attribute
             }
         },
 
@@ -193,7 +191,7 @@ define([
             return this.caption[this.curindex];
         },
 
-        //stub function, will be used or replaced by the client environment
+        // Stub function, will be used or replaced by the client environment
         onChange: function() {},
 
         textChange: function(e) {
