@@ -80,7 +80,7 @@
         <property key="targetClassName" type="string" required="false">
             <caption>Target selector</caption>
             <category>Appearance</category>
-            <description>CSS selector  of the target for the enum class when 'Apply To' is set to 'Target selector'</description>
+            <description>CSS selector of the closest ancestor to add the classes, when 'Apply To' is set to 'Target selector'</description>
         </property>
         <property key="glyphicon" type="string" required="false">
             <caption>Glyphicon</caption>

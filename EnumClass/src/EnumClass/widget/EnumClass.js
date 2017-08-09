@@ -77,41 +77,47 @@ define([
             }
 
             this.element = domConstruct.create("span");
-
+            var message;
             switch (this.applyToEnum) { // Select the right element to apply the class too
                 case "SELF":
                     this.elementToApplyTo = this.element;
+                    message = "own";
                     break;
                 case "ROW":
-                    this.elementToApplyTo = this.element.closest(".mx-templategrid-row");
+                    this.elementToApplyTo = this.domNode.closest(".mx-templategrid-row");
+                    message = "template grid row";
                     break;
                 case "ITEM":
-                    this.elementToApplyTo = this.element.closest(".mx-listview-item");
+                    this.elementToApplyTo = this.domNode.closest(".mx-listview-item");
+                    message = "list item";
                     break;
                 case "PARENT":
                     this.elementToApplyTo = this.domNode.parentElement;
+                    message = "parent element";
                     break;
                 case "SIBLING":
                     this.elementToApplyTo = this.domNode.previousSibling;
+                    message = "previous sibling";
                     break;
                 case "TARGET_SELECTOR":
                     this.elementToApplyTo = this.domNode.closest(this.targetClassName);
+                    message = "closes parent with selector '" + this.targetClassName + "'";
                     break;
                 default:
+                    message = "default"
                     this.elementToApplyTo = this.element;
             }
 
-            if (!this.showWidget && this.elementToApplyTo) {
+            if (this.showWidget && this.elementToApplyTo) {
                 this.domNode.appendChild(this.element);
-                domAttr.set(this.element, "style", "display:none;");
             }
 
             if (!this.elementToApplyTo) {
                 var alertDiv = document.createElement("div");
                     alertDiv.setAttribute("class", "alert alert-danger");
-                    var alertContent = document.createTextNode("Custom widget '" + this.id + "' could not find the element to apply the class"); 
+                    var alertContent = document.createTextNode("Custom widget '" + this.id + "' could not find the " + message + " element to apply the class"); 
                     alertDiv.appendChild(alertContent);
-                    this._markerNode.parentNode.insertBefore(alertDiv, this._markerNode); 
+                    this.domNode.appendChild(alertDiv);
             }
             // ET 12/7/16 -- Removed in favor of the dom-class module so two EnumClass widgets can peacefully coexist
             // this.defaultClass = domAttr.get(this.elementToApplyTo, "class");
@@ -136,6 +142,9 @@ define([
         },
 
         _setValueAttr: function(value) {
+            if (!this.elementToApplyTo) {
+                return;
+            }
             if (this.attributeType == "reference") {
                 if (value) {
                     value = "true";
@@ -199,17 +208,7 @@ define([
         },
 
         _resetSubscriptions: function() {
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-            if (!this.elementToApplyTo) {
-                return;
-            }
             this.unsubscribeAll();
->>>>>>> 72e4281... fixup! Add support target selector
-=======
-            this.unsubscribeAll();
->>>>>>> c8461ed... Simply subscription
             var attributeName = this.name;
             if (this.attributeType == "reference") {
                 attributeName = this._referenceName;
