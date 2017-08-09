@@ -80,11 +80,6 @@ define([
             }
 
             this.element = domConstruct.create("span");
-            this.domNode.appendChild(this.element);
-
-            if (!this.showWidget) {
-                domAttr.set(this.element, "style", "display:none;");
-            }
 
             switch (this.applyToEnum) { //Select the right element to apply the class too
                 case "SELF":
@@ -102,21 +97,42 @@ define([
                 case "SIBLING":
                     this.elementToApplyTo = this.domNode.previousSibling;
                     break;
+                case "TARGET_SELECTOR":
+                    this.elementToApplyTo = this.domNode.closest(this.targetClassName);
+                    break;
                 default:
                     this.elementToApplyTo = this.element;
+            }
+
+            if (!this.showWidget && this.elementToApplyTo) {
+                this.domNode.appendChild(this.element);
+                domAttr.set(this.element, "style", "display:none;");
+            }
+
+            if (!this.elementToApplyTo) {
+                var alertDiv = document.createElement("div");
+                    alertDiv.setAttribute("class", "alert alert-danger");
+                    var alertContent = document.createTextNode("Custom widget '" + this.id + "' could not find the element to apply the class"); 
+                    alertDiv.appendChild(alertContent);
+                    this._markerNode.parentNode.insertBefore(alertDiv, this._markerNode); 
             }
             //ET 12/7/16 -- Removed in favor of the dom-class module so two EnumClass widgets can peacefully coexist
             //this.defaultClass = domAttr.get(this.elementToApplyTo, "class");
 
             //if (this.defaultClass !== "") {
-            //	this.defaultClass += " ";
+            //    this.defaultClass += " ";
             //}
         },
 
         update: function(obj, callback) {
+<<<<<<< HEAD
             if (obj) {
                 this.contextGUID = obj.getGuid();
                 // check reference
+=======
+            if (obj && this.elementToApplyTo) {
+                // Check reference
+>>>>>>> 72e4281... fixup! Add support target selector
                 if (this._referenceName && obj.get(this._referenceName) !== "") {
                     // console.log(obj.get(this._referenceName))
                     // set the classes
@@ -203,6 +219,13 @@ define([
         },
 
         _resetSubscriptions: function() {
+<<<<<<< HEAD
+=======
+            if (!this.elementToApplyTo) {
+                return;
+            }
+            this.unsubscribeAll();
+>>>>>>> 72e4281... fixup! Add support target selector
             var attributeName = this.name;
             if (this.attributeType == "reference") {
                 attributeName = this._referenceName;

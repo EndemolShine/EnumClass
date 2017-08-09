@@ -73,8 +73,14 @@
                 <enumerationValue key="PARENT">Parent</enumerationValue>
                 <enumerationValue key="SIBLING">Previous Sibling</enumerationValue>
                 <enumerationValue key="ROW">Templategrid Row</enumerationValue>
-				<enumerationValue key="ITEM">ListView Item</enumerationValue>
+                <enumerationValue key="ITEM">ListView Item</enumerationValue>
+                <enumerationValue key="TARGET_SELECTOR">Target Selector</enumerationValue>
             </enumerationValues>
+        </property>
+        <property key="targetClassName" type="string" required="false">
+            <caption>Target selector</caption>
+            <category>Appearance</category>
+            <description>CSS selector  of the target for the enum class when 'Apply To' is set to 'Target selector'</description>
         </property>
         <property key="glyphicon" type="string" required="false">
             <caption>Glyphicon</caption>
